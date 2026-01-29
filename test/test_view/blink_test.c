@@ -1,11 +1,8 @@
 #include <unity.h>
 #include <stdint.h>
-#include <stdbool.h>
 #include <util/delay.h>
 #include "view.h"
-
-#define DDRB  ((volatile uint8_t*)0x24)
-#define PORTB ((volatile uint8_t*)0x25)
+#include "model.h"
 
 /**
  * setUp: Runs automatically BEFORE each test case.
@@ -51,11 +48,10 @@ void test_led_d8_setup_and_turn_off(void) {
 /**
  * main: Entry point for the test runner on the microcontroller.
  */
-int main(void) {
-    _delay_ms(2000); 
+int main(void) { 
     UNITY_BEGIN();
     RUN_TEST(test_led_d8_setup_and_turn_on);
-    _delay_ms(2000); 
+    _delay_ms(200); 
     RUN_TEST(test_led_d8_setup_and_turn_off);
     return UNITY_END();
 }
