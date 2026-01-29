@@ -3,12 +3,12 @@
 
 void setup_portB(){
     *PORTB = 0;
-    *DDRB = 6;
+    *DDRB = PORTB1 + PORTB2;
 }
 
 void setup_portC(){
     *PORTC = 0;
-    *DDRC = 31;
+    *DDRC = PORTC0 + PORTC1 + PORTC2 + PORTC3 + PORTC4 + PORTC5;
 }
 
 void setup_buttons(){

@@ -29,7 +29,7 @@ void tearDown(void) {
  */
 void test_led_d8_setup_and_turn_on(void) {
     TEST_ASSERT_BIT_HIGH(0, *DDRB);
-    blink(PORTB, 0x01);
+    blink(PORTB, PORTB0);
     TEST_ASSERT_EQUAL_HEX8(0x01, *PORTB);
     TEST_ASSERT_BIT_HIGH(0, *PORTB);
 }
@@ -40,7 +40,7 @@ void test_led_d8_setup_and_turn_on(void) {
  */
 void test_led_d8_setup_and_turn_off(void) {
     TEST_ASSERT_BIT_HIGH(0, *DDRB);
-    blink(PORTB, 0x0);
+    blink(PORTB, OFF);
     TEST_ASSERT_EQUAL_HEX8(0x0, *PORTB);
     TEST_ASSERT_BIT_LOW(0, *PORTB);
 }
@@ -51,7 +51,7 @@ void test_led_d8_setup_and_turn_off(void) {
 int main(void) { 
     UNITY_BEGIN();
     RUN_TEST(test_led_d8_setup_and_turn_on);
-    _delay_ms(200); 
+    _delay_ms(2000); 
     RUN_TEST(test_led_d8_setup_and_turn_off);
     return UNITY_END();
 }

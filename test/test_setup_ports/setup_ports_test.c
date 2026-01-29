@@ -26,7 +26,7 @@ void tearDown(void) {
 
 /**
  * TEST CASE: Setup PortB registers
- * Validates that all PORTB and DDRB register bits are correctly assigned
+ * Validates that first 3 pins PORTB and DDRB register bits are correctly assigned 
  */
 void test_portb_setup(void) {
     TEST_ASSERT_EQUAL_HEX8(0, *PORTB);
@@ -38,19 +38,19 @@ void test_portb_setup(void) {
 
 /**
  * TEST CASE: Setup PortC registers
- * Validates that all PORTC and DDRC register bits are correctly assigned
+ * Validates that that first 6 pins PORTC and DDRC register bits are correctly assigned
  */
 void test_portc_setup(void) {
     TEST_ASSERT_EQUAL_HEX8(0, *PORTC);
     TEST_ASSERT_EQUAL_HEX8(0, *DDRC);
     setup_portC();
     TEST_ASSERT_EQUAL_HEX8(0, *PORTC);
-    TEST_ASSERT_EQUAL_HEX8(31, *DDRC);
+    TEST_ASSERT_EQUAL_HEX8(63, *DDRC);
 }
 
 /**
  * TEST CASE: Setup the Buttons Port registers
- * Validates that all PORTB, DDRB, PORTC and DDRC register bits are correctly assigned
+ * Validates that the previous pins off PORTB, DDRB, PORTC and DDRC register bits are correctly assigned
  */
 void test_buttons_setup(void) {
     TEST_ASSERT_EQUAL_HEX8(0, *PORTB);
@@ -61,7 +61,7 @@ void test_buttons_setup(void) {
     TEST_ASSERT_EQUAL_HEX8(0, *PORTB);
     TEST_ASSERT_EQUAL_HEX8(6, *DDRB);
     TEST_ASSERT_EQUAL_HEX8(0, *PORTC);
-    TEST_ASSERT_EQUAL_HEX8(31, *DDRC);
+    TEST_ASSERT_EQUAL_HEX8(63, *DDRC);
 }
 
 /**
