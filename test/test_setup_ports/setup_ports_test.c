@@ -50,15 +50,15 @@ void test_portc_setup(void) {
 }
 
 /**
- * TEST CASE: Setup the Buttons Port registers
+ * TEST CASE: Setup PortB and PortC registers
  * Validates that the previous pins off PORTB, DDRB, PORTC and DDRC register bits are correctly assigned
  */
-void test_buttons_setup(void) {
+void test_ports_setup(void) {
     TEST_ASSERT_EQUAL_HEX8(0, PORTB);
     TEST_ASSERT_EQUAL_HEX8(0, DDRB);
     TEST_ASSERT_EQUAL_HEX8(0, PORTC);
     TEST_ASSERT_EQUAL_HEX8(0, DDRC);
-    setup_buttons();
+    setup_ports();
     TEST_ASSERT_EQUAL_HEX8(0, PORTB);
     TEST_ASSERT_EQUAL_HEX8(6, DDRB);
     TEST_ASSERT_EQUAL_HEX8(0, PORTC);
@@ -74,6 +74,6 @@ int main(void) {
     _delay_ms(200); 
     RUN_TEST(test_portc_setup);
     _delay_ms(200); 
-    RUN_TEST(test_buttons_setup);
+    RUN_TEST(test_ports_setup);
     return UNITY_END();
 }

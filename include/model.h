@@ -14,6 +14,6 @@
  */
 void setup_portB();
 void setup_portC();
-void setup_buttons();
+void setup_ports();
 
 #endif // MODEL_H

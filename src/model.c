@@ -12,7 +12,7 @@ void setup_portC(){
     DDRC = 63;
 }
 
-void setup_buttons(){
+void setup_ports(){
     setup_portB();
     setup_portC();
 }
