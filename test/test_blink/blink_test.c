@@ -3,6 +3,7 @@
 #include <util/delay.h>
 #include "view.h"
 #include "model.h"
+#include <avr/io.h>
 
 /**
  * setUp: Runs automatically BEFORE each test case.
@@ -10,10 +11,10 @@
  */
 void setUp(void) {
     // Set all pins of PORTB to LOW (0V)
-    *PORTB = 0;
+    PORTB = 0;
     
     // Configure Pin 0 (D8 on Arduino Uno) as an OUTPUT by setting bit 0 to 1
-    *DDRB = 1;
+    DDRB = 1;
 }
 
 /**
@@ -28,10 +29,10 @@ void tearDown(void) {
  * Validates that the blink function writes 0x01 to the correct register.
  */
 void test_led_d8_setup_and_turn_on(void) {
-    TEST_ASSERT_BIT_HIGH(0, *DDRB);
-    blink(PORTB, PORTB0);
-    TEST_ASSERT_EQUAL_HEX8(0x01, *PORTB);
-    TEST_ASSERT_BIT_HIGH(0, *PORTB);
+    TEST_ASSERT_BIT_HIGH(0, DDRB);
+    blink(&PORTB, PORTB0, ON);
+    TEST_ASSERT_EQUAL_HEX8(0x01, PORTB);
+    TEST_ASSERT_BIT_HIGH(0, PORTB);
 }
 
 /**
@@ -39,10 +40,10 @@ void test_led_d8_setup_and_turn_on(void) {
  * Validates that the blink function writes 0x00 to the correct register.
  */
 void test_led_d8_setup_and_turn_off(void) {
-    TEST_ASSERT_BIT_HIGH(0, *DDRB);
-    blink(PORTB, OFF);
-    TEST_ASSERT_EQUAL_HEX8(0x0, *PORTB);
-    TEST_ASSERT_BIT_LOW(0, *PORTB);
+    TEST_ASSERT_BIT_HIGH(0, DDRB);
+    blink(&PORTB, PORTB0, OFF);
+    TEST_ASSERT_EQUAL_HEX8(0x0, PORTB);
+    TEST_ASSERT_BIT_LOW(0, PORTB);
 }
 
 /**
