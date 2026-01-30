@@ -34,6 +34,13 @@ void send_lead(){
     while (!time_over);
 }
 
+void send_stop(){
+    set_carrier(true);
+    setup_timer(560);
+    while(!time_over);
+    set_carrier(false);
+}
+
 void send_message(uint32_t message){
     setup_38khz_hardware();
     send_lead();
@@ -41,8 +48,5 @@ void send_message(uint32_t message){
         uint8_t bit = (message >> i) & 0x01;
         send_bit(bit);
     }
-    set_carrier(true);
-    setup_timer(560);
-    while(!time_over);
-    set_carrier(false);
+    send_stop();
 }

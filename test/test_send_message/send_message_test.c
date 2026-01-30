@@ -22,7 +22,7 @@ void tearDown(void) {
 }
 
 /**
- * TEST CASE: validate_message_transmission
+ * TEST CASE: Validate message transmission
  * This test sends a 32-bit NEC message and displays it through a LED 
  */
 void test_transmit_specific_nec_message(void) {
