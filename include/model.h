@@ -1,14 +1,6 @@
 #ifndef MODEL_H
 #define MODEL_H
 
-
-/**
- * Important notations
- */
-#define ON 1
-#define OFF 0
-
-
 /**
  * Model functions
  */

@@ -1,7 +1,8 @@
 #include <unity.h>
 #include <stdint.h>
 #include <util/delay.h>
-#include "view.h"
+#include "leds.h"
+#include "timers.h"
 #include "model.h"
 #include <avr/io.h>
 
