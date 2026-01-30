@@ -7,11 +7,11 @@ void setup_buttons(struct button* buttons[]){
      * Predefined Button setup
      * May change in the future
      */
-    static struct button button0 = {&PINC, PINC0, 0x20DF10EF}; // Power ON/OFF
-    static struct button button1 = {&PINC, PINC1, 0x20DF40BF}; // Volume UP
-    static struct button button2 = {&PINC, PINC2, 0x20DFC03F}; // Volume DOWN
-    static struct button button3 = {&PINC, PINC3, 0x20DF00FF}; // Channel UP
-    static struct button button4 = {&PINC, PINC4, 0x20DF807F}; // Channel DOWN
+    static struct button button0 = {&PINC, PINC0, 0xF708FB04}; // Power ON/OFF
+    static struct button button1 = {&PINC, PINC1, 0xFD02FB04}; // Volume UP
+    static struct button button2 = {&PINC, PINC2, 0xFC03FB04}; // Volume DOWN
+    static struct button button3 = {&PINC, PINC3, 0xFF00FB04}; // Channel UP
+    static struct button button4 = {&PINC, PINC4, 0xFE01FB04}; // Channel DOWN
 
     buttons[0] = &button0;
     buttons[1] = &button1;

@@ -44,11 +44,11 @@ void test_setup_buttons(void) {
     TEST_ASSERT_EQUAL_UINT8(PINC3, buttons[3]->pin);
     TEST_ASSERT_EQUAL_UINT8(PINC4, buttons[4]->pin);
 
-    TEST_ASSERT_EQUAL_UINT32(0x20DF10EF, buttons[0]->message);
-    TEST_ASSERT_EQUAL_UINT32(0x20DF40BF, buttons[1]->message);
-    TEST_ASSERT_EQUAL_UINT32(0x20DFC03F, buttons[2]->message);
-    TEST_ASSERT_EQUAL_UINT32(0x20DF00FF, buttons[3]->message);
-    TEST_ASSERT_EQUAL_UINT32(0x20DF807F, buttons[4]->message);
+    TEST_ASSERT_EQUAL_UINT32(0xF708FB04, buttons[0]->message);
+    TEST_ASSERT_EQUAL_UINT32(0xFD02FB04, buttons[1]->message);
+    TEST_ASSERT_EQUAL_UINT32(0xFC03FB04, buttons[2]->message);
+    TEST_ASSERT_EQUAL_UINT32(0xFF00FB04, buttons[3]->message);
+    TEST_ASSERT_EQUAL_UINT32(0xFE01FB04, buttons[4]->message);
 }
 
 /**
@@ -59,7 +59,7 @@ void test_change_message(void){
     TEST_ASSERT_NOT_NULL(buttons[0]);
     TEST_ASSERT_EQUAL_PTR(&PINC, buttons[0]->input_address);
     TEST_ASSERT_EQUAL_UINT8(PINC0, buttons[0]->pin);
-    TEST_ASSERT_EQUAL_UINT32(0x20DF10EF, buttons[0]->message);
+    TEST_ASSERT_EQUAL_UINT32(0xF708FB04, buttons[0]->message);
     
     uint32_t new_msg = 0xABCDE123;
     change_message(buttons[0], new_msg);
