@@ -1,4 +1,4 @@
-#include <stdint.h>
+/*#include <stdint.h>
 #include <stdbool.h>
 #include <avr/interrupt.h>
 #include <avr/io.h>
@@ -43,4 +43,4 @@ ISR(TIMER0_COMPA_vect){
         time_over = true;
         TIMSK0 &= ~(1 << OCIE0A);
     }
-}
+}*/

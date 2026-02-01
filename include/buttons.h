@@ -2,6 +2,7 @@
 #define BUTTONS_H
 
 #include <stdint.h>
+#include <stdbool.h>
 
 /**
  * Button structure
@@ -19,5 +20,6 @@ struct button
  */
 void setup_buttons();
 void change_message(struct button* button, uint32_t message);
+bool check_message(uint32_t message);
 
 #endif // BUTTONS_H
