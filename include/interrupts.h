@@ -18,19 +18,30 @@
 #define BIT1_MIN 1125
 #define BIT1_MAX 2255
 
+/**
+ * TIMER0 PART - FOR BOTH
+ */
 extern volatile bool timer0_function;
 
+/**
+ * IR LED PART
+ */
+extern volatile uint16_t sender_ticks;
+extern volatile bool time_over;
+
+void set_carrier(bool state);
+void setup_timer(uint16_t time_us);
+void setup_sender();
+
+/**
+ * IRR PART
+ */
 extern volatile uint16_t time_stamps[67];
 extern volatile uint16_t time_stamp;
 extern volatile uint16_t receiver_ticks;
 extern volatile uint8_t bit_counter;
-extern volatile bool irr_state;
 extern volatile bool irr_finished;
 
-/**
- * Interrupt functions
- */
-void timestamp_to_message(uint32_t *message);
 void setup_receiver();
 
 #endif // INTERRUPTS_H

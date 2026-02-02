@@ -24,15 +24,3 @@ void setup_buttons(struct button* buttons[]){
 void change_message(struct button* button, uint32_t message){
     if (button != NULL) button->message = message;
 }
-
-bool check_message(uint32_t message){
-    uint8_t address = (uint8_t)(message & 0x000000FF);
-    uint8_t inv_address = (uint8_t)((message & 0x0000FF00) >> 8);
-    uint8_t command = (uint8_t)((message & 0x00FF0000) >> 16);
-    uint8_t inv_command = (uint8_t)((message & 0xFF000000) >> 24);
-    
-    bool addr_ok = (address == (uint8_t)~inv_address);
-    bool cmd_ok  = (command == (uint8_t)~inv_command);
-
-    return (addr_ok && cmd_ok);
-}

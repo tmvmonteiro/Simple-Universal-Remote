@@ -11,11 +11,55 @@ volatile bool timer0_function;
 
 ISR(TIMER0_COMPA_vect) {
     if (timer0_function == RECEIVER) receiver_ticks++;
+    else{
+        if (sender_ticks > 0) sender_ticks--;
+        else {
+            time_over = true;
+            TIMSK0 &= ~(1 << OCIE0A);
+        }
+    }
 }
 
 /**
  * IR LED PART
  */
+volatile uint16_t sender_ticks;
+volatile bool time_over;
+
+void set_carrier(bool state){
+    if (state) {
+        TCNT1 = 0;
+        TCCR1A |= (1 << COM1A0);
+    } else {
+        TCCR1A &= ~(1 << COM1A0);
+        PORTB &= ~(1 << PB1);
+    }
+}
+
+void setup_timer(uint16_t time_us){
+    cli();
+
+    // Variables setup
+    time_over = false;
+    sender_ticks = time_us / 10;
+
+    // Timer0 Setup
+    TCNT0 = 0;
+    TCCR0A = (1 << WGM01);   
+    TCCR0B = (1 << CS01);
+    OCR0A  = 19;
+    TIMSK0 |= (1 << OCIE0A);
+
+    sei();
+}
+
+void setup_sender(){
+    // Timer1 Setup
+    DDRB |= (1 << PB1);
+    TCCR1A = 0;
+    TCCR1B = (1 << WGM12) | (1 << CS10);
+    OCR1A = 210;
+}
 
 /**
  * IRR PART
@@ -24,7 +68,6 @@ volatile uint16_t time_stamps[67];
 volatile uint16_t time_stamp;
 volatile uint16_t receiver_ticks;
 volatile uint8_t bit_counter; // 0-66
-volatile bool irr_state;
 volatile bool irr_finished;
 
 ISR(INT0_vect) {
@@ -32,18 +75,6 @@ ISR(INT0_vect) {
     time_stamps[bit_counter++] = time_stamp;
     if (bit_counter == 67) irr_finished = true;
     receiver_ticks = 0;
-}
-
-void timestamp_to_message(uint32_t *message){
-    *message = 0;
-    uint8_t bit_pos = 0;
-    for (int i = 4; i < 67; i+=2)
-    {
-        time_stamp = time_stamps[i];
-        if ((BIT1_MIN < time_stamp) && (time_stamp < BIT1_MAX)) *message |= ((uint32_t)1 << bit_pos);
-        bit_pos++;
-    }
-    
 }
 
 void setup_receiver(){

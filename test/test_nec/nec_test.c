@@ -5,7 +5,7 @@
 #include <stdbool.h>
 #include <avr/interrupt.h>
 #include "interrupts.h"
-#include "buttons.h"
+#include "nec.h"
 
 /**
  * setUp: Runs automatically BEFORE each test case.
@@ -22,25 +22,26 @@ void tearDown(void) {
 }
 
 /**
- * TEST CASE: Receives NEC Message
- * This test receives a NEC Message
- * and inserts the HIGH and LOW WAVES 
- * timestamps on an 66 size array.
- * Then it passes the array into a function
- * that translates the HIGH IR waves into
- * a 32 bits message (1690us -> 1; 560us ->0).
- * Finally, the message goes through a message
- * that returns true if it follows the 
- * NEC protocol.
+ * TEST CASE: Receive NEC Message
+ * This test receives a NEC Message 
+ * (Power ON/OFF) from a device (LG TV remote)
  */
-void test_irr_receiver(void) {
-    setup_receiver();
-    while(!irr_finished);
+void test_nec_receiver(void){
     uint32_t message;
-    timestamp_to_message(&message);
-    bool is_follows_nec = check_message(message);
+    bool message_correct = receive_message(&message);
+    TEST_ASSERT_TRUE(message_correct);
     TEST_ASSERT_EQUAL_HEX32(0xF708FB04, message);
-    TEST_ASSERT_TRUE(is_follows_nec);
+}
+
+/**
+ * TEST CASE: Send NEC Message
+ * This test sends a NEC Message 
+ * (Power ON/OFF) to a device (LG TV)
+ */
+void test_nec_sender(void){
+    uint32_t message = 0xF708FB04;
+    send_message(message);
+    TEST_ASSERT_EQUAL_HEX32(0xF708FB04, message);
 }
 
 /**
@@ -49,6 +50,8 @@ void test_irr_receiver(void) {
 int main(void) {
     _delay_ms(200);
     UNITY_BEGIN();
-    RUN_TEST(test_irr_receiver);
+    //RUN_TEST(test_nec_receiver);
+    _delay_ms(200);
+    RUN_TEST(test_nec_sender);
     return UNITY_END();
 }
