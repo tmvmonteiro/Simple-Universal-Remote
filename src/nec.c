@@ -52,6 +52,7 @@ void send_message(uint32_t message){
         send_bit(bit);
     }
     send_stop();
+    reset_interrupts_and_timers(); 
 }
 
 /**
@@ -61,6 +62,7 @@ bool receive_message(uint32_t *message){
     setup_receiver();
     while(!irr_finished);
     timestamp_to_message(message);
+    reset_interrupts_and_timers(); 
     return check_message(*message);
 }
 

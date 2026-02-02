@@ -24,8 +24,8 @@ void tearDown(void) {
 }
 
 /**
- * TEST CASE: Setup PortB and PortC registers
- * Validates that the previous pins off PORTB, DDRB, PORTC and DDRC register bits are correctly assigned
+ * TEST CASE: Receive input
+ * Test if PINC0 is able to receive input
  */
 void test_receive_input(void){
     uint8_t desired_button = buttons[0]->pin;

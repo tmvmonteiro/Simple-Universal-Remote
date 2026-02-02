@@ -44,4 +44,9 @@ extern volatile bool irr_finished;
 
 void setup_receiver();
 
+/**
+ * RESET PART
+ */
+void reset_interrupts_and_timers();
+
 #endif // INTERRUPTS_H

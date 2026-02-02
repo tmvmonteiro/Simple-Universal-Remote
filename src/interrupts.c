@@ -104,3 +104,35 @@ void setup_receiver(){
 
     sei();
 }
+
+/**
+ * RESET PART
+ */
+void reset_interrupts_and_timers(){
+    cli();
+
+    // Timer0 Reset
+    TCCR0A = 0;
+    TCCR0B = 0;
+    TIMSK0 &= ~(1 << OCIE0A);
+    TCNT0 = 0;
+
+    // Timer1 Reset
+    TCCR1A = 0;
+    TCCR1B = 0;
+    TCNT1 = 0;
+    PORTB &= ~(1 << PB1);
+
+    // INT0 Reset
+    EIMSK &= ~(1 << INT0);
+    EICRA &= ~((1 << ISC01) | (1 << ISC00));
+
+    // Variables reset
+    sender_ticks = 0;
+    receiver_ticks = 0;
+    time_over = false;
+    bit_counter = 0;
+    irr_finished = false;
+
+    sei();
+}

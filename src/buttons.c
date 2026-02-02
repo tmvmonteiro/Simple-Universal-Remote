@@ -7,7 +7,7 @@ bool receive_input(uint8_t *button){
     uint8_t port_state = PINC & 0x1F; 
     
     if (port_state != 0) { 
-        for (uint8_t i = 0; i <= 4; i++) {
+        for (uint8_t i = 0; i <= 5; i++) {
             if (PINC & (1 << i)) {
                 *button = i;
                 return true;
