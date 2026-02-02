@@ -3,6 +3,20 @@
 #include <avr/io.h>
 #include <stddef.h>
 
+bool receive_input(uint8_t *button){
+    uint8_t port_state = PINC & 0x1F; 
+    
+    if (port_state != 0) { 
+        for (uint8_t i = 0; i <= 4; i++) {
+            if (PINC & (1 << i)) {
+                *button = i;
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 void setup_buttons(struct button* buttons[]){
     /**
      * Predefined Button setup

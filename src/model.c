@@ -9,7 +9,7 @@ void setup_portB(){
 
 void setup_portC(){
     PORTC = 0;
-    DDRC = 63;
+    DDRC = 0;
 }
 
 void setup_ports(){
