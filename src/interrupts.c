@@ -32,7 +32,7 @@ void set_carrier(bool state){
         TCCR1A |= (1 << COM1A0);
     } else {
         TCCR1A &= ~(1 << COM1A0);
-        PORTB &= ~(1 << PB1);
+        PORTB &= ~(1 << PORTB1);
     }
 }
 
@@ -40,6 +40,7 @@ void setup_timer(uint16_t time_us){
     cli();
 
     // Variables setup
+    timer0_function = SENDER;
     time_over = false;
     sender_ticks = time_us / 10;
 
@@ -55,7 +56,7 @@ void setup_timer(uint16_t time_us){
 
 void setup_sender(){
     // Timer1 Setup
-    DDRB |= (1 << PB1);
+    DDRB |= (1 << PORTB1);
     TCCR1A = 0;
     TCCR1B = (1 << WGM12) | (1 << CS10);
     OCR1A = 210;

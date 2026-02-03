@@ -4,11 +4,11 @@
 #include <stddef.h>
 
 bool receive_input(uint8_t *button){
-    uint8_t port_state = PINC & 0x1F; 
+    uint8_t port_state = (~PINC) & 0x3F;
     
     if (port_state != 0) { 
-        for (uint8_t i = 0; i <= 5; i++) {
-            if (PINC & (1 << i)) {
+        for (uint8_t i = 0; i < 6; i++) {
+            if (port_state & (1 << i)){
                 *button = i;
                 return true;
             }

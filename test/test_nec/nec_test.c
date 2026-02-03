@@ -50,8 +50,8 @@ void test_nec_sender(void){
 int main(void) {
     _delay_ms(200);
     UNITY_BEGIN();
-    //RUN_TEST(test_nec_receiver);
+    RUN_TEST(test_nec_receiver);
     _delay_ms(200);
-    RUN_TEST(test_nec_sender);
+    //RUN_TEST(test_nec_sender);
     return UNITY_END();
 }

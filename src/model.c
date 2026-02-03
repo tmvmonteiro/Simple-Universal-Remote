@@ -8,8 +8,8 @@ void setup_portB(){
 }
 
 void setup_portC(){
-    PORTC = 0;
     DDRC = 0;
+    PORTC = 0x3F;
 }
 
 void setup_ports(){

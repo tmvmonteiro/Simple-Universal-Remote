@@ -10,11 +10,7 @@
  * Used to reset the hardware state to a known baseline.
  */
 void setUp(void) {
-    // Set all pins of PORTB to LOW (0V)
-    PORTB = 0;
-    
-    // Configure Pin 0 (D8 on Arduino Uno) as an OUTPUT by setting bit 0 to 1
-    DDRB = 1;
+    setup_portB();
 }
 
 /**
@@ -26,24 +22,22 @@ void tearDown(void) {
 
 /**
  * TEST CASE: Turn ON LED
- * Validates that the blink function writes 0x01 to the correct register.
+ * Validates that the blink function writes 0x04 to the correct register.
  */
-void test_led_d8_setup_and_turn_on(void) {
-    TEST_ASSERT_BIT_HIGH(0, DDRB);
-    blink(&PORTB, PORTB0, ON);
-    TEST_ASSERT_EQUAL_HEX8(0x01, PORTB);
-    TEST_ASSERT_BIT_HIGH(0, PORTB);
+void test_led_d10_setup_and_turn_on(void) {
+    blink(&PORTB, PORTB2, ON);
+    TEST_ASSERT_EQUAL_HEX8(0x04, PORTB);
+    TEST_ASSERT_BIT_HIGH(PORTB2, PORTB);
 }
 
 /**
  * TEST CASE: Turn OFF LED
  * Validates that the blink function writes 0x00 to the correct register.
  */
-void test_led_d8_setup_and_turn_off(void) {
-    TEST_ASSERT_BIT_HIGH(0, DDRB);
-    blink(&PORTB, PORTB0, OFF);
+void test_led_d10_setup_and_turn_off(void) {
+    blink(&PORTB, PORTB2, OFF);
     TEST_ASSERT_EQUAL_HEX8(0x0, PORTB);
-    TEST_ASSERT_BIT_LOW(0, PORTB);
+    TEST_ASSERT_BIT_LOW(PORTB2, PORTB);
 }
 
 /**
@@ -51,8 +45,8 @@ void test_led_d8_setup_and_turn_off(void) {
  */
 int main(void) { 
     UNITY_BEGIN();
-    RUN_TEST(test_led_d8_setup_and_turn_on);
+    RUN_TEST(test_led_d10_setup_and_turn_on);
     _delay_ms(2000); 
-    RUN_TEST(test_led_d8_setup_and_turn_off);
+    RUN_TEST(test_led_d10_setup_and_turn_off);
     return UNITY_END();
 }
