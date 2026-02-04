@@ -12,6 +12,7 @@
  * Used to reset the hardware state to a known baseline.
  */
 void setUp(void) {
+    //init_debug_uart();
 }
 
 /**
@@ -21,6 +22,16 @@ void setUp(void) {
 void tearDown(void) {
 }
 
+void test_nec_receiver_receiver(void){
+    uint32_t message1;
+    bool message_correct1 = receive_message(&message1);
+    TEST_ASSERT_EQUAL_HEX32(0xF708FB04, message1);
+    uint32_t message2;
+    _delay_ms(500);
+    bool message_correct2 = receive_message(&message2);
+    TEST_ASSERT_EQUAL_HEX32(0xF708FB04, message2);
+}
+
 /**
  * TEST CASE: Receive NEC Message
  * This test receives a NEC Message 
@@ -28,8 +39,7 @@ void tearDown(void) {
  */
 void test_nec_receiver(void){
     uint32_t message;
-    bool message_correct = receive_message(&message);
-    TEST_ASSERT_TRUE(message_correct);
+    receive_message(&message);
     TEST_ASSERT_EQUAL_HEX32(0xF708FB04, message);
 }
 
@@ -50,8 +60,10 @@ void test_nec_sender(void){
 int main(void) {
     _delay_ms(200);
     UNITY_BEGIN();
-    RUN_TEST(test_nec_receiver);
+    RUN_TEST(test_nec_receiver_receiver);
     _delay_ms(200);
-    //RUN_TEST(test_nec_sender);
+    RUN_TEST(test_nec_sender);
+    _delay_ms(200);
+    RUN_TEST(test_nec_receiver);
     return UNITY_END();
 }

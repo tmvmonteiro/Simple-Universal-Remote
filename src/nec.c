@@ -2,7 +2,7 @@
 #include "interrupts.h"
 #include <stdint.h>
 #include <stdbool.h>
-
+#include <avr/io.h>
 /**
  * Debug functions
  */
@@ -61,8 +61,9 @@ void send_message(uint32_t message){
 bool receive_message(uint32_t *message){
     setup_receiver();
     while(!irr_finished);
+    EIMSK &= ~(1 << INT0);
     timestamp_to_message(message);
-    reset_interrupts_and_timers(); 
+    reset_interrupts_and_timers();
     return check_message(*message);
 }
 

@@ -3,6 +3,8 @@
 #include <avr/interrupt.h>
 #include <avr/io.h>
 #include "interrupts.h"
+#include <stdio.h>
+#include <string.h>
 
 /**
  * TIMER0 PART - FOR BOTH
@@ -10,8 +12,10 @@
 volatile bool timer0_function;
 
 ISR(TIMER0_COMPA_vect) {
-    if (timer0_function == RECEIVER) receiver_ticks++;
-    else{
+    if (timer0_function == RECEIVER){
+        receiver_ticks++;
+    }
+    else if (timer0_function == SENDER){
         if (sender_ticks > 0) sender_ticks--;
         else {
             time_over = true;
@@ -72,9 +76,14 @@ volatile uint8_t bit_counter; // 0-66
 volatile bool irr_finished;
 
 ISR(INT0_vect) {
-    time_stamp = receiver_ticks * 10;
-    time_stamps[bit_counter++] = time_stamp;
-    if (bit_counter == 67) irr_finished = true;
+    if (!irr_finished){
+        time_stamp = receiver_ticks * 10;
+        time_stamps[bit_counter++] = time_stamp;
+        if (bit_counter >= 67) {
+            irr_finished = true;
+            EIMSK &= ~(1 << INT0);
+        }
+    }
     receiver_ticks = 0;
 }
 
@@ -83,9 +92,7 @@ void setup_receiver(){
 
     // Variables setup
     timer0_function = RECEIVER;
-    for (int i = 0; i < 67; i++) {
-        time_stamps[i] = 0;
-    }
+    memset((void*)time_stamps, 0, sizeof(time_stamps));
     time_stamp = 0;
     receiver_ticks = 0;
     bit_counter = 0;
@@ -101,6 +108,7 @@ void setup_receiver(){
     // Setup IR Pin
     DDRD &= ~(1 << DDD2);
     EICRA |= (1 << ISC00);
+    EIFR |= (1 << INTF0);
     EIMSK |= (1 << INT0);
 
     sei();
@@ -134,6 +142,7 @@ void reset_interrupts_and_timers(){
     time_over = false;
     bit_counter = 0;
     irr_finished = false;
+    timer0_function = NONE;
 
     sei();
 }

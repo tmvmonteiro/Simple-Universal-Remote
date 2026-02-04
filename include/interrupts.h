@@ -7,8 +7,9 @@
 /**
  * Important notations
 */
-#define RECEIVER true
-#define SENDER false
+#define RECEIVER 0
+#define SENDER 1
+#define NONE 2
 
 #define HIGH true
 #define LOW false

@@ -14,7 +14,6 @@ int main(){
 
   setup_ports();
   setup_buttons(buttons);
-
   while (1){
     while(!receive_input(&button));
     switch (button)
@@ -26,6 +25,7 @@ int main(){
       blink(&PORTB, PORTB2, ON);
       _delay_ms(2000);
       while (!receive_input(&changing_button));
+      blink(&PORTB, PORTB2, OFF);
 
       if (changing_button == PINC5){ // Cancel changing function
         _delay_ms(200);
@@ -44,6 +44,7 @@ int main(){
         blink(&PORTB, PORTB2, ON);
         _delay_ms(200);
         blink(&PORTB, PORTB2, OFF);
+        _delay_ms(200);
       }
       else { // Unsuccessfully received NEC message
         _delay_ms(200);
