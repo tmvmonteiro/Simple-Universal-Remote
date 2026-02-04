@@ -11,6 +11,14 @@
  */
 volatile bool timer0_function;
 
+/**
+ * Timer0 Compare Match A Interrupt Service Routine
+ * 
+ * This ISR handles the time-keeping for both sending and receiving IR data.
+ * If set to RECEIVER: It increments receiver_ticks to measure pulse durations.
+ * If set to SENDER: It decrements sender_ticks until they reach zero, 
+ * marking the end of a specific IR signal interval (high or low).
+ */
 ISR(TIMER0_COMPA_vect) {
     if (timer0_function == RECEIVER){
         receiver_ticks++;
@@ -30,6 +38,14 @@ ISR(TIMER0_COMPA_vect) {
 volatile uint16_t sender_ticks;
 volatile bool time_over;
 
+/**
+ * IR Carrier Wave Control
+ * 
+ * This function toggles the 38kHz carrier wave generation on Timer1.
+ * If state is true: Connects the timer to the OC1A pin to start the wave.
+ * If state is false: Disconnects the timer and forces the pin LOW to 
+ * ensure the IR LED is fully turned off.
+ */
 void set_carrier(bool state){
     if (state) {
         TCNT1 = 0;
@@ -40,6 +56,13 @@ void set_carrier(bool state){
     }
 }
 
+/**
+ * Timer Setup for Pulse Generation
+ * 
+ * Configures Timer0 to act as a countdown timer for IR pulse transmission.
+ * It converts the requested microseconds (us) into 10us "ticks" and 
+ * enables the output compare interrupt to track the elapsed duration.
+ */
 void setup_timer(uint16_t time_us){
     cli();
 
@@ -58,6 +81,13 @@ void setup_timer(uint16_t time_us){
     sei();
 }
 
+/**
+ * IR Sender Hardware Configuration
+ * 
+ * Prepares Timer1 to generate the physical 38kHz carrier signal on PORTB1.
+ * It sets the Clear Timer on Compare (CTC) mode and defines the period
+ * required to match the standard IR carrier frequency.
+ */
 void setup_sender(){
     // Timer1 Setup
     DDRB |= (1 << PORTB1);
@@ -75,6 +105,14 @@ volatile uint16_t receiver_ticks;
 volatile uint8_t bit_counter; // 0-66
 volatile bool irr_finished;
 
+/**
+ * External Interrupt 0 (INT0) Service Routine
+ * 
+ * Triggered on every logic change (edge) from the IR receiver.
+ * It records the time elapsed since the last edge (in microseconds) 
+ * into the time_stamps array. Once 67 edges are recorded (the full 
+ * NEC frame), it marks the capture as finished and disables the interrupt.
+ */
 ISR(INT0_vect) {
     if (!irr_finished){
         time_stamp = receiver_ticks * 10;
@@ -87,6 +125,14 @@ ISR(INT0_vect) {
     receiver_ticks = 0;
 }
 
+/**
+ * IR Receiver Initialization
+ * 
+ * Configures the system to listen for incoming NEC IR signals.
+ * This clears the timestamp buffer, resets the bit counter, and 
+ * initializes Timer0 to 10us tick mode. It also enables INT0 to 
+ * trigger on any logical change of the IR input pin.
+ */
 void setup_receiver(){
     cli();
 
@@ -116,6 +162,15 @@ void setup_receiver(){
 
 /**
  * RESET PART
+ */
+
+/**
+ * Global Hardware and Variable Reset
+ * 
+ * Stops all IR-related activities by disabling Timer0, Timer1, and 
+ * External Interrupts. It resets all internal counters and state 
+ * flags to their default values, effectively returning the IR 
+ * subsystem to an idle, clean state.
  */
 void reset_interrupts_and_timers(){
     cli();

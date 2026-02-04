@@ -5,6 +5,16 @@
 #include "model.h"
 #include "nec.h"
 
+/**
+ * Main Application Loop
+ * 
+ * This program implements a programmable NEC IR remote duplicator. 
+ * It operates in two primary modes:
+ * 1. Command Learning: Triggered by PINC5, allowing the user to map a 
+ * physical button to a new captured IR signal.
+ * 2. Command Transmission: The default state where pressing a button 
+ * replays its stored 32-bit NEC message.
+ */
 int main(){
   uint8_t button = 0;
   uint8_t changing_button = 0;

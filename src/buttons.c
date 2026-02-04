@@ -3,6 +3,16 @@
 #include <avr/io.h>
 #include <stddef.h>
 
+/**
+ * Input handling
+ * 
+ * This function handles input coming from
+ * PC0, PC1, PC2, PC3, PC4 and PC5 (PORTC).
+ * Returs false if no input received.
+ * Returns true if input is received. 'button'
+ * value changes to the number of the corresponding
+ * button pressed at the circuit. 
+ */
 bool receive_input(uint8_t *button){
     uint8_t port_state = (~PINC) & 0x3F;
     
@@ -17,6 +27,13 @@ bool receive_input(uint8_t *button){
     return false;
 }
 
+/**
+ * Default buttons
+ * 
+ * This functions sets up the default values
+ * for the NEC messages. In this case, it'll 
+ * probably work for a LG device.
+ */
 void setup_buttons(struct button* buttons[]){
     /**
      * Predefined Button setup
@@ -35,6 +52,12 @@ void setup_buttons(struct button* buttons[]){
     buttons[4] = &button4;
 }
 
+/**
+ * Changing button NEC message
+ * 
+ * This functions changes the NEC message associated to
+ * a choosen 'button' with a given one.
+ */
 void change_message(struct button* button, uint32_t message){
     if (button != NULL) button->message = message;
 }
